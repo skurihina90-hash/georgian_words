@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Онлайн Тренажёр Слов</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f3f4f6; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: auto; padding: 20px;}
+    h1 { text-align: center; color: #333;}
+    button { padding: 10px; margin: 5px; font-size: 16px; cursor: pointer; }
+    .card { background: white; border-radius: 8px; padding: 15px; margin: 10px 0; }
+    .input { width: 100%; padding: 8px; margin: 5px 0; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>📚 Онлайн Тренажёр Слов</h1>
+
+  <div id="main">
+    <button onclick="showCreateDeck()">Создать Набор</button>
+    <button onclick="showStudy()">Изучать</button>
+    <div id="decks"></div>
+    <div id="cards"></div>
+  </div>
+
+  <div id="createDeckSection" style="display:none;">
+    <h2>Создать Набор</h2>
+    <input id="newDeckTitle" class="input" placeholder="Название набора">
+    <button onclick="createDeck()">Сохранить</button>
+    <button onclick="backToMain()">Назад</button>
+  </div>
+
+  <div id="studySection" style="display:none;">
+    <h2>Изучение</h2>
+    <div id="studyCard" class="card"></div>
+    <button onclick="nextCard()">Следующее</button>
+    <button onclick="backToMain()">Назад</button>
+  </div>
+</div>
+
+<script>
+  let decks = JSON.parse(localStorage.getItem('decks')||'[]');
+  let currentDeckIndex = null;
+  let studyIndex = 0;
+
+  function showCreateDeck(){
+    document.getElementById('main').style.display='none';
+    document.getElementById('createDeckSection').style.display='block';
+  }
+
+  function backToMain(){
+    document.getElementById('main').style.display='block';
+    document.getElementById('createDeckSection').style.display='none';
+    document.getElementById('studySection').style.display='none';
+    renderDecks();
+  }
+
+  function createDeck()

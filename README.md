@@ -1,0 +1,2 @@
+# georgian_words
+Study
